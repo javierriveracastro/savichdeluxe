@@ -1,0 +1,170 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+        <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}" height="100" width="100"/>
+        
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
+            {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+            use both the "grid" and "grid-Ncol" class where "N" can be any number
+            from 1 to 12 and will create that number of columns.  --}}
+            <div class="resources grid grid-7col">
+              {{!-- "flex-group-center" is also defined in the _grid.scss file
+              and it will add a small amount of padding, a border, and will
+              center all of its child elements content and text. --}}
+              <div class="resource flex-group-center">
+                  <label for="data.heridas.valor" class="resource-label">Heridas</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.heridas.valor" value="{{data.heridas.valor}}" data-dtype="Number"/>
+                    <span> / </span>
+                    <input type="text" name="data.heridas.max" value="{{data.heridas.max}}" data-dtype="Number"/>
+                  </div>
+              </div>
+              <div class="resource flex-group-center">
+                  <label for="data.fatiga.valor" class="resource-label">Fatiga</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.fatiga.valor" value="{{data.fatiga.valor}}" data-dtype="Number"/>
+                    <span> / </span>
+                    <input type="text" name="data.fatiga.max" value="{{data.fatiga.max}}" data-dtype="Number"/>
+                  </div>
+              </div>
+              <div class="resource flex-group-center">
+                  <label for="data.carisma.valor" class="resource-label">Carisma</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.carisma.valor" value="{{data.carisma.valor}}" data-dtype="Number"/>
+                  </div>
+              </div>
+              <div class="resource flex-group-center">
+                  <label for="data.paso.valor" class="resource-label">Paso</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.paso.valor" value="{{data.paso.valor}}" data-dtype="Number"/>
+                  </div>
+              </div>
+              <div class="resource flex-group-center">
+                  <label for="data.parada.valor" class="resource-label">Parada</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.parada.valor" value="{{data.parada.valor}}" data-dtype="Number"/>
+                  </div>
+              </div>
+              <div class="resource flex-group-center">
+                  <label for="data.dureza.valor" class="resource-label">Dureza</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.dureza.valor" value="{{data.dureza.valor}}" data-dtype="Number"/>
+                    <span> ( </span>
+                    <input type="text" name="data.dureza.armadura" value="{{data.dureza.armadura}}" data-dtype="Number"/>
+                    <span> ) </span>
+                  </div>
+              </div>
+          </div>
+          {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+          use both the "grid" and "grid-Ncol" class where "N" can be any number
+          from 1 to 12 and will create that number of columns.  --}}
+          <div class="abilities grid grid-5col">
+              <div class="ability flexrow flex-group-center">
+                <span class="ability-mod Atributodialog" data-dado="{{data.abilities.Agilidad.value}}" data-label="Agilidad" data-bono="{{data.abilities.Agilidad.bonus}}"><label for="data.abilities.Agilidad.value" class="resource-label">Agilidad</label></span>
+                <br>
+                <input type="text" name="data.abilities.Agilidad.value" value="{{data.abilities.Agilidad.value}}" data-dtype="Number"/>
+                <span> + </span>
+                <input type="text" name="data.abilities.Agilidad.bonus" value="{{data.abilities.Agilidad.bonus}}" data-dtype="Number"/>
+              </div>
+              <div class="ability flexrow flex-group-center">
+                <span class="ability-mod Atributodialog" data-dado="{{data.abilities.Fuerza.value}}" data-label="Fuerza" data-bono="{{data.abilities.Fuerza.bonus}}"><label for="data.abilities.Fuerza.value" class="resource-label">Fuerza</label></span>
+                <br>
+                <input type="text" name="data.abilities.Fuerza.value" value="{{data.abilities.Fuerza.value}}" data-dtype="Number"/>
+                <span> + </span>
+                <input type="text" name="data.abilities.Fuerza.bonus" value="{{data.abilities.Fuerza.bonus}}" data-dtype="Number"/>
+              </div>
+              <div class="ability flexrow flex-group-center">
+                <span class="ability-mod Atributodialog" data-dado="{{data.abilities.Astucia.value}}" data-label="Astucia" data-bono="{{data.abilities.Astucia.bonus}}"><label for="data.abilities.Astucia.value" class="resource-label">Astucia</label></span>
+                <br>
+                <input type="text" name="data.abilities.Astucia.value" value="{{data.abilities.Astucia.value}}" data-dtype="Number"/>
+                <span> + </span>
+                <input type="text" name="data.abilities.Astucia.bonus" value="{{data.abilities.Astucia.bonus}}" data-dtype="Number"/>
+              </div>
+              <div class="ability flexrow flex-group-center">
+                <span class="ability-mod Atributodialog" data-dado="{{data.abilities.Espíritu.value}}" data-label="Espíritu" data-bono="{{data.abilities.Espíritu.bonus}}"><label for="data.abilities.Espíritu.value" class="resource-label">Espíritu</label></span>
+                <br>
+                <input type="text" name="data.abilities.Espíritu.value" value="{{data.abilities.Espíritu.value}}" data-dtype="Number"/>
+                <span> + </span>
+                <input type="text" name="data.abilities.Espíritu.bonus" value="{{data.abilities.Espíritu.bonus}}" data-dtype="Number"/>
+              </div>
+              <div class="ability flexrow flex-group-center">
+                <span class="ability-mod Atributodialog" data-dado="{{data.abilities.Vigor.value}}" data-label="Vigor" data-bono="{{data.abilities.Vigor.bonus}}"><label for="data.abilities.Vigor.value" class="resource-label">Vigor</label></span>
+                <br>
+                <input type="text" name="data.abilities.Vigor.value" value="{{data.abilities.Vigor.value}}" data-dtype="Number"/>
+                <span> + </span>
+                <input type="text" name="data.abilities.Vigor.bonus" value="{{data.abilities.Vigor.bonus}}" data-dtype="Number"/>
+              </div>
+          </div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="habilidades">Habilidades</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="items">Items</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+    
+        {{!-- Pestaña de Habilidades --}}
+        <div class="tab habilidades" data-group="primary" data-tab="habilidades">
+           <ol class="items-list">
+                <li class="item flexrow item-header">
+                  <div class="item-image"></div>
+                  <div class="item-name">Habilidad</div>
+                  <div class="item-name">Valor</div>
+                  <div class="item-controls">
+<!--                     <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i> Add item</a> -->
+                  </div>
+                </li>
+            {{#each Habilidades as |item id|}}
+                <li class="item flexrow" data-item-id="{{item._id}}">
+                    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                     <span class="ability-mod Atributodialog" data-dado="{{item.data.dado}}" data-label="{{item.name}}" data-bono="{{item.data.bono}}">
+                        <h4 class="item-name">{{item.name}}</h4>
+                     </span>
+                    <h4 class="item-valor">1d{{item.data.dado}}+{{item.data.bono}}</h4>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+            {{/each}}
+            </ol>
+        </div>
+        
+        {{!-- Biography Tab --}}
+        <div class="tab biography" data-group="primary" data-tab="description">
+            {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+        </div>
+
+        {{!-- Owned Items Tab --}}
+        <div class="tab items" data-group="primary" data-tab="items">
+            <ol class="items-list">
+                <li class="item flexrow item-header">
+                  <div class="item-image"></div>
+                  <div class="item-name">Name</div>
+                  <div class="item-controls">
+                    <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i> Add item</a>
+                  </div>
+                </li>
+            {{#each actor.items as |item id|}}
+                <li class="item flexrow" data-item-id="{{item._id}}">
+                    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                    <h4 class="item-name">{{item.name}}</h4>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+            {{/each}}
+            </ol>
+        </div>
+
+    </section>
+</form>
+
