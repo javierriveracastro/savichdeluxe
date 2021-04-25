@@ -1,0 +1,45 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
+            <div class="grid grid-3col">
+              <div class="resource">
+                <label class="resource-label">Daño</label>
+                  <input type="text" name="data.dano" value="{{data.dano}}" data-dtype="String"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Usa Fuerza</label>
+                  <input type="text" name="data.usa_fue" value="{{data.usa_fue}}" data-dtype="String"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Alcance</label>
+                  <input type="text" name="data.alcance" value="{{data.alcance}}" data-dtype="String"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Habilidad</label>
+                  <input type="text" name="data.habilidad" value="{{data.habilidad}}" data-dtype="String"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Peso</label>
+                  <input type="text" name="data.peso" value="{{data.peso}}" data-dtype="Number"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Precio</label>
+                  <input type="text" name="data.precio" value="{{data.precio}}" data-dtype="Number"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">CdF</label>
+                  <input type="text" name="data.CdF" value="{{data.CdF}}" data-dtype="Number"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">FueMin</label>
+                  <input type="text" name="data.FUEMin" value="{{data.FUEMin}}" data-dtype="Number"/>
+              </div>
+            </div>
+        </div>
+    </header>
+    <body class="sheet-body">
+        {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+    </body>
+</form>

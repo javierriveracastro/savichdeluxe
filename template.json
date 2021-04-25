@@ -61,7 +61,7 @@
     }
   },
   "Item": {
-    "types": ["item", "habilidad"],
+    "types": ["item", "habilidad", "arma", "armadura"],
     "templates": {
       "base": {
         "description": ""
@@ -76,6 +76,25 @@
       "templates": ["base"],
       "dado": 4,
       "bono": 0
+    },
+    "arma": {
+      "templates": ["base"],
+      "dano": "",
+      "usa_fue": "No",
+      "peso": 0,
+      "precio": 0,
+      "CdF": 0,
+      "Mun": 0,
+      "FUEMin": 0,
+      "alcance": "",
+      "habilidad": ""
+    },
+    "armadura": {
+       "bono": 0,
+       "peso": 0,
+       "precio": 0,
+       "equipada": "No"
+       
     }
   }
 }

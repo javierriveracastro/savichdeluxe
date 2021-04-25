@@ -96,8 +96,8 @@ export class SavichDeluxeActorSheet extends ActorSheet {
     // Initialize containers.
     const gear = [];
     const Habilidades = [];
-//     const Armas = [];
-//     const Armaduras = [];
+     const Armas = [];
+     const Armaduras = [];
 //     const Ventajas = [];
 //     const Desventajas = [];
     // Iterate through items, allocating to containers
@@ -113,12 +113,12 @@ export class SavichDeluxeActorSheet extends ActorSheet {
       else if (i.type === 'habilidad') {
         Habilidades.push(i);
       }
-//       else if (i.type === "Arma") {
-//         Armas.push(i);
-//       }
-//       else if (i.type === "Armadura") {
-//         Armaduras.push(i);
-//       }
+       else if (i.type === "arma") {
+         Armas.push(i);
+       }
+       else if (i.type === "armadura") {
+         Armaduras.push(i);
+       }
 //       else if (i.type === "Ventaja") {
 //         Ventajas.push(i);
 //       }
@@ -134,8 +134,8 @@ export class SavichDeluxeActorSheet extends ActorSheet {
     actorData.Habilidades = Habilidades;
     console.log ("HABILIDADES");
     console.log (Habilidades);
-//     actorData.Armas = Armas;
-//     actorData.Armaduras = Armaduras;
+     actorData.Armas = Armas;
+     actorData.Armaduras = Armaduras;
 //     actorData.Ventajas = Ventajas;
 //     actorData.Desventajas = Desventajas;
   }

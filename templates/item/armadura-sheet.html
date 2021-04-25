@@ -1,0 +1,29 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
+            <div class="grid grid-3col">
+              <div class="resource">
+                <label class="resource-label">Bono</label>
+                  <input type="text" name="data.bono" value="{{data.bono}}" data-dtype="Number"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Peso</label>
+                  <input type="text" name="data.peso" value="{{data.peso}}" data-dtype="Number"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Precio</label>
+                  <input type="text" name="data.precio" value="{{data.precio}}" data-dtype="Number"/>
+              </div>
+              <div class="resource">
+                <label class="resource-label">Equipada</label>
+                  <input type="text" name="data.equipada" value="{{data.equipada}}" data-dtype="String"/>
+              </div>
+            </div>
+        </div>
+    </header>
+    <body class="sheet-body">
+        {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+    </body>
+</form>
