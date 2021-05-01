@@ -59,6 +59,8 @@ export class SavichDeluxeActorSheet extends ActorSheet {
     // Rollable abilities.
      html.find('.rollable').click(this._onRoll.bind(this));
      html.find('.Atributodialog').click(this._onAtributoDialog.bind(this));
+     html.find('.Ataquedialog').click(this._onAtaqueDialog.bind(this));
+     
   }
 
   /* -------------------------------------------- */
@@ -263,4 +265,125 @@ export class SavichDeluxeActorSheet extends ActorSheet {
     d.render(true);
   }
 
+    _onAtaqueDialog(event) {
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    console.log ("ENTRO EN DIALOGO DE ATAQUE");
+    let dialogContent = `
+	            <div>
+                   Objetivo: <input id="objetivo" value="4" size=1>
+		        </div>
+		        <div> 
+		           <label class="resource-label">Modificadores</label>
+                   <select id="modificadores">
+                      <option value="-4">-4</option>
+		              <option value="-3">-3</option>
+                      <option value="-2">-2</option>
+                      <option value="-1">-1</option>
+                      <option value=" 0" selected>0</option>
+                      <option value="1">+1</option>
+		              <option value="2">+2</option>
+		              <option value="3">+3</option>
+		              <option value="4">+4</option>
+                   </select>
+		        </div>`;
+    let d = new Dialog({
+      title: `Nueva tirada de ${dataset.label}`,
+      content: dialogContent,
+      buttons: {
+         Atacar: {
+            icon: '<i class="fas fa-check"></i>',
+            label: "Atacar",
+            callback: () => {
+               var resultado = "";
+               var margen = 0;
+               var aumentos = 0;
+               const HabilidadArma = this.actor.items.find((k) => k.type === "habilidad" && k.name === dataset.habilidad);
+               var objetivo = document.getElementById("objetivo").value;
+               var modificadores = document.getElementById("modificadores").value;
+               let listaObjetivos = game.user.targets;
+               console.log ("LISTA OBJETIVOS");
+               console.log (listaObjetivos);
+               let token_id;
+               if (listaObjetivos.size) {
+                   token_id = Array.from(listaObjetivos)[0];
+                   console.log("TOKEN ID");               
+                   console.log(token_id);
+                   let target = token_id.actor;
+                   console.log("ACTOR");
+                   console.log(target);
+                   console.log ("PARADA");
+                   console.log (target.data.data.parada.valor);
+                   objetivo = target.data.data.parada.valor;
+               }
+               
+               var tirada_con_bonos = "";
+               if (dataset.bono > 0){
+                  tirada_con_bonos = tirada_con_bonos.concat ("{1d", HabilidadArma.data.data.dado, "x",HabilidadArma.data.data.dado,"+",HabilidadArma.data.data.bono,",1d6x6}kh");   
+               }
+               else {
+                  tirada_con_bonos = tirada_con_bonos.concat ("{1d", HabilidadArma.data.data.dado, "x",HabilidadArma.data.data.dado,",1d6x6}kh");
+               }
+               if (modificadores != 0){
+                  if (modificadores > 0){
+                     tirada_con_bonos = tirada_con_bonos.concat ("+", modificadores);
+                  }
+                  else {
+                     tirada_con_bonos = tirada_con_bonos.concat (modificadores);
+                  }
+               }
+               console.log ("TIRADA CON BONOS");
+               console.log (tirada_con_bonos);
+               console.log ("ACTOR");
+               console.log (this.actor);
+               let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
+//                let tirada = new Roll ("1d6", this.actor.data.data);
+               tirada.roll();
+               
+               if (tirada.total >= objetivo){
+                  margen = tirada.total - objetivo;
+                  aumentos = Math.floor(margen / 4);
+                  if (aumentos > 0){
+                     if (aumentos == 1)
+                     {
+                        resultado = "<div style=\"color:blue;\">" + aumentos + " AUMENTO" + "</div>";
+                     }
+                     else
+                     {
+                        resultado = "<div style=\"color:blue;\">" + aumentos + " AUMENTOS" + "</div>";
+                     }
+                  }
+                  else
+                  {
+                     resultado = "<div style=\"color:green;\">ÉXITO</div>";
+                  }
+               }
+               else
+               {
+                  resultado = "<div style=\"color:orange;\">FALLO</div>";
+               }
+               var tirada_limpia = 0;
+               tirada_limpia = tirada.total - modificadores;
+               console.log ("TIRADA LIMPIA");
+               console.log (tirada_limpia);
+               if (tirada_limpia == 1)
+               {
+                  resultado = "<div style=\"color:red;\"> PIFIA</div>";
+               }
+               let label = dataset.label ? `Ataque con ${dataset.label}` : '';
+               let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + resultado + "</b>";
+               console.log ("DADO TOTAL:");
+               console.log (tirada.total);
+               tirada.toMessage({
+                  speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+                  flavor: flavor
+               });
+            }
+		 }
+         },
+      render: html => console.log("Register interactivity in the rendered dialog"),
+      close: html => console.log("This always is logged no matter which option is chosen")
+    }); 
+    d.render(true);
+  }
 }
