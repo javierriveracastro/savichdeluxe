@@ -80,7 +80,7 @@
     "arma": {
       "templates": ["base"],
       "dano": "",
-      "usa_fue": "No",
+      "bono_atributo_dano": "",
       "peso": 0,
       "precio": 0,
       "CdF": 0,

@@ -301,9 +301,7 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                const HabilidadArma = this.actor.items.find((k) => k.type === "habilidad" && k.name === dataset.habilidad);
                var objetivo = document.getElementById("objetivo").value;
                var modificadores = document.getElementById("modificadores").value;
-               let listaObjetivos = game.user.targets;
-               console.log ("LISTA OBJETIVOS");
-               console.log (listaObjetivos);
+               let listaObjetivos = game.user.targets;7
                let token_id;
                if (listaObjetivos.size) {
                    token_id = Array.from(listaObjetivos)[0];
@@ -332,12 +330,7 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                      tirada_con_bonos = tirada_con_bonos.concat (modificadores);
                   }
                }
-               console.log ("TIRADA CON BONOS");
-               console.log (tirada_con_bonos);
-               console.log ("ACTOR");
-               console.log (this.actor);
                let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
-//                let tirada = new Roll ("1d6", this.actor.data.data);
                tirada.roll();
                
                if (tirada.total >= objetivo){
@@ -364,13 +357,257 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                }
                var tirada_limpia = 0;
                tirada_limpia = tirada.total - modificadores;
-               console.log ("TIRADA LIMPIA");
-               console.log (tirada_limpia);
                if (tirada_limpia == 1)
                {
                   resultado = "<div style=\"color:red;\"> PIFIA</div>";
                }
                let label = dataset.label ? `Ataque con ${dataset.label}` : '';
+               let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + resultado + "</b>";
+               tirada.toMessage({
+                  speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+                  flavor: flavor
+               });
+            }
+		 },
+         Daño: {
+            icon: '<i class="fas fa-check"></i>',
+            label: "Daño",
+            callback: () => {
+               var resultado = "";
+               var margen = 0;
+               var aumentos = 0;
+               var objetivo = document.getElementById("objetivo").value;
+               var modificadores = document.getElementById("modificadores").value;
+               let listaObjetivos = game.user.targets;
+               let token_id;
+               if (listaObjetivos.size) {
+                   token_id = Array.from(listaObjetivos)[0];
+                   let target = token_id.actor;
+                   objetivo = target.data.data.dureza.valor;
+               }
+               var tirada_con_bonos = "";
+                  tirada_con_bonos = tirada_con_bonos.concat (dataset.dano);
+               switch (dataset.bono_atributo_dano) {
+                   case "Fuerza": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Fuerza.value,"x",this.actor.data.data.abilities.Fuerza.value);
+                   if (this.actor.data.data.abilities.Fuerza.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Fuerza.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Fuerza.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Fuerza.bonus);
+                   }
+                   break;
+                   
+                   case "Agilidad": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Agilidad.value,"x",this.actor.data.data.abilities.Agilidad.value);
+                   if (this.actor.data.data.abilities.Agilidad.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Agilidad.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Agilidad.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Agilidad.bonus);
+                   }
+                   break;
+                   
+                   case "Vigor": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Vigor.value,"x",this.actor.data.data.abilities.Vigor.value);
+                   if (this.actor.data.data.abilities.Vigor.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Vigor.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Vigor.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Vigor.bonus);
+                   }
+                   break;
+                   
+                   case "Astucia": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Astucia.value,"x",this.actor.data.data.abilities.Astucia.value);
+                   if (this.actor.data.data.abilities.Astucia.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Astucia.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Astucia.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Astucia.bonus);
+                   }
+                   break;
+                   
+                   case "Espíritu": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Espíritu.value,"x",this.actor.data.data.abilities.Espíritu.value);
+                   if (this.actor.data.data.abilities.Espíritu.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Espíritu.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Espíritu.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Espíritu.bonus);
+                   }
+                   break;
+                   
+               }
+               if (modificadores != 0){
+                  if (modificadores > 0){
+                     tirada_con_bonos = tirada_con_bonos.concat ("+", modificadores);
+                  }
+                  else {
+                     tirada_con_bonos = tirada_con_bonos.concat (modificadores);
+                  }
+               }
+               let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
+               tirada.roll();
+               
+               if (tirada.total >= objetivo){
+                  margen = tirada.total - objetivo;
+                  aumentos = Math.floor(margen / 4);
+                  if (aumentos > 0){
+                     if (aumentos == 1)
+                     {
+                        resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDA" + "</div>";
+                     }
+                     else
+                     {
+                        resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDAS" + "</div>";
+                     }
+                  }
+                  else
+                  {
+                     resultado = "<div style=\"color:green;\">ATURDIDO</div>";
+                  }
+               }
+               else
+               {
+                  resultado = "<div style=\"color:orange;\">FALLO</div>";
+               }
+               let label = dataset.label ? `Daño de ${dataset.label}` : '';
+               let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + resultado + "</b>";
+               tirada.toMessage({
+                  speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+                  flavor: flavor
+               });
+            }
+		 },
+         Aumento: {
+            icon: '<i class="fas fa-check"></i>',
+            label: "Daño con Aumento",
+            callback: () => {
+               var resultado = "";
+               var margen = 0;
+               var aumentos = 0;
+               var objetivo = document.getElementById("objetivo").value;
+               var modificadores = document.getElementById("modificadores").value;
+               let listaObjetivos = game.user.targets;
+               console.log ("LISTA OBJETIVOS");
+               console.log (listaObjetivos);
+               let token_id;
+               if (listaObjetivos.size) {
+                   token_id = Array.from(listaObjetivos)[0];
+                   console.log("TOKEN ID");               
+                   console.log(token_id);
+                   let target = token_id.actor;
+                   console.log("ACTOR");
+                   console.log(target);
+                   console.log ("PARADA");
+                   console.log (target.data.data.dureza.valor);
+                   objetivo = target.data.data.dureza.valor;
+               }
+               
+               var tirada_con_bonos = "";
+                  tirada_con_bonos = tirada_con_bonos.concat (dataset.dano,"+ 1d6x6");
+                  switch (dataset.bono_atributo_dano) {
+                   case "Fuerza": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Fuerza.value,"x",this.actor.data.data.abilities.Fuerza.value);
+                   if (this.actor.data.data.abilities.Fuerza.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Fuerza.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Fuerza.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Fuerza.bonus);
+                   }
+                   break;
+                   
+                   case "Agilidad": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Agilidad.value,"x",this.actor.data.data.abilities.Agilidad.value);
+                   if (this.actor.data.data.abilities.Agilidad.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Agilidad.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Agilidad.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Agilidad.bonus);
+                   }
+                   break;
+                   
+                   case "Vigor": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Vigor.value,"x",this.actor.data.data.abilities.Vigor.value);
+                   if (this.actor.data.data.abilities.Vigor.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Vigor.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Vigor.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Vigor.bonus);
+                   }
+                   break;
+                   
+                   case "Astucia": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Astucia.value,"x",this.actor.data.data.abilities.Astucia.value);
+                   if (this.actor.data.data.abilities.Astucia.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Astucia.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Astucia.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Astucia.bonus);
+                   }
+                   break;
+                   
+                   case "Espíritu": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Espíritu.value,"x",this.actor.data.data.abilities.Espíritu.value);
+                   if (this.actor.data.data.abilities.Espíritu.bonus > 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Espíritu.bonus);
+                   }
+                   else if (this.actor.data.data.abilities.Espíritu.bonus < 0)
+                   {
+                      tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Espíritu.bonus);
+                   }
+                   break;
+                   
+               }
+               if (modificadores != 0){
+                  if (modificadores > 0){
+                     tirada_con_bonos = tirada_con_bonos.concat ("+", modificadores);
+                  }
+                  else {
+                     tirada_con_bonos = tirada_con_bonos.concat (modificadores);
+                  }
+               }
+               console.log ("TIRADA CON BONOS");
+               console.log (tirada_con_bonos);
+               console.log ("ACTOR");
+               console.log (this.actor);
+               let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
+//                let tirada = new Roll ("1d6", this.actor.data.data);
+               tirada.roll();
+               
+               if (tirada.total >= objetivo){
+                  margen = tirada.total - objetivo;
+                  aumentos = Math.floor(margen / 4);
+                  if (aumentos > 0){
+                     if (aumentos == 1)
+                     {
+                        resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDA" + "</div>";
+                     }
+                     else
+                     {
+                        resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDAS" + "</div>";
+                     }
+                  }
+                  else
+                  {
+                     resultado = "<div style=\"color:green;\">ATURDIDO</div>";
+                  }
+               }
+               else
+               {
+                  resultado = "<div style=\"color:orange;\">FALLO</div>";
+               }
+               let label = dataset.label ? `Daño con Aumento de ${dataset.label}` : '';
                let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + resultado + "</b>";
                console.log ("DADO TOTAL:");
                console.log (tirada.total);
