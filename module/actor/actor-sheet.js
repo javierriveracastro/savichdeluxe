@@ -45,14 +45,15 @@ export class SavichDeluxeActorSheet extends ActorSheet {
     // Update Inventory Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.getOwnedItem(li.data("itemId"));
+      const item = this.actor.items.get(li.data("itemId"));
       item.sheet.render(true);
     });
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteOwnedItem(li.data("itemId"));
+      const objeto_a_borrar = this.actor.items.get(li.data("itemId"));
+      objeto_a_borrar.delete();
       li.slideUp(200, () => this.render(false));
     });
 
@@ -89,7 +90,8 @@ export class SavichDeluxeActorSheet extends ActorSheet {
     delete itemData.data["type"];
 
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
+//     return this.actor.createOwnedItem(itemData);
+       return Item.create(itemData, {parent: this.actor});
   }
 
   _prepareCharacterItems(sheetData) {

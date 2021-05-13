@@ -21,8 +21,10 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Entity classes
-  CONFIG.Actor.entityClass = SavichDeluxeActor;
-  CONFIG.Item.entityClass = SavichDeluxeItem;
+//   CONFIG.Actor.entityClass = SavichDeluxeActor;
+//   CONFIG.Item.entityClass = SavichDeluxeItem;
+  CONFIG.Actor.documentClass = SavichDeluxeActor;
+  CONFIG.Item.documentClass = SavichDeluxeItem;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
