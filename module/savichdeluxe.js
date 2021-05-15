@@ -16,13 +16,10 @@ Hooks.once('init', async function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "1d20",
-    decimals: 2
+    formula: "1d20"
   };
 
   // Define custom Entity classes
-//   CONFIG.Actor.entityClass = SavichDeluxeActor;
-//   CONFIG.Item.entityClass = SavichDeluxeItem;
   CONFIG.Actor.documentClass = SavichDeluxeActor;
   CONFIG.Item.documentClass = SavichDeluxeItem;
 
