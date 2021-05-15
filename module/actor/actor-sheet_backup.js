@@ -318,75 +318,20 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                let listaObjetivos = game.user.targets;
                let token_id;
                if (listaObjetivos.size) {
-                   for ( let i = 0; i < listaObjetivos.size; i++) {
-                      token_id = Array.from(listaObjetivos)[i];
-                      let target = token_id.actor;
-                      objetivo = target.data.data.parada.valor;
-                      var tirada_con_bonos = "";
-                      if (dataset.bono > 0){
-                         tirada_con_bonos = tirada_con_bonos.concat ("{1d", HabilidadArma.data.data.dado, "x",HabilidadArma.data.data.dado,"+",HabilidadArma.data.data.bono,",1d6x6}kh");   
-                      }
-                      else {
-                        tirada_con_bonos = tirada_con_bonos.concat ("{1d", HabilidadArma.data.data.dado, "x",HabilidadArma.data.data.dado,",1d6x6}kh");
-                      }
-                      if (modificadores != 0){
-                         if (modificadores > 0){
-                            tirada_con_bonos = tirada_con_bonos.concat ("+", modificadores);
-                         }
-                      else {
-                        tirada_con_bonos = tirada_con_bonos.concat (modificadores);
-                      }
-                     }
-                     heridas = this.actor.data.data.heridas.valor;
-                     fatiga = this.actor.data.data.fatiga.valor;
-                     if (heridas != 0){
-                        tirada_con_bonos = tirada_con_bonos.concat ("-", heridas);
-                     }
-                     if (fatiga != 0){
-                        tirada_con_bonos = tirada_con_bonos.concat ("-", fatiga);
-                     }
-                        let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
-                        tirada.roll();
-               
-                        if (tirada.total >= objetivo){
-                        margen = tirada.total - objetivo;
-                        aumentos = Math.floor(margen / 4);
-                        if (aumentos > 0){
-                           if (aumentos == 1)
-                        {
-                           resultado = "<div style=\"color:blue;\">" + aumentos + " AUMENTO" + "</div>";
-                        }
-                        else
-                        {
-                           resultado = "<div style=\"color:blue;\">" + aumentos + " AUMENTOS" + "</div>";
-                        }
-                      }
-                      else
-                      {
-                        resultado = "<div style=\"color:green;\">ÉXITO</div>";
-                      }
-                   }
-                   else
-                   {
-                     resultado = "<div style=\"color:orange;\">FALLO</div>";
-                   }
-                   var tirada_limpia = 0;
-                   tirada_limpia = tirada.total - modificadores;
-                   if (tirada_limpia == 1)
-                   {
-                     resultado = "<div style=\"color:red;\"> PIFIA</div>";
-                   }
-                   let label = dataset.label ? `Ataque con ${dataset.label}` : '';
-                   let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + "(" + target.data.name + ")" + "<br>" + resultado + "</b>";
-                   tirada.toMessage({
-                     speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                     flavor: flavor
-                   });
-                   }
+                   console.log ("NUMERO DE ENEMIGOS");
+                   console.log (listaObjetivos.size);
+                   token_id = Array.from(listaObjetivos)[0];
+                   console.log("TOKEN ID");               
+                   console.log(token_id);
+                   let target = token_id.actor;
+                   console.log("ACTOR");
+                   console.log(target);
+                   console.log ("PARADA");
+                   console.log (target.data.data.parada.valor);
+                   objetivo = target.data.data.parada.valor;
                }
-               else
-               {
-                   var tirada_con_bonos = "";
+               
+               var tirada_con_bonos = "";
                if (dataset.bono > 0){
                   tirada_con_bonos = tirada_con_bonos.concat ("{1d", HabilidadArma.data.data.dado, "x",HabilidadArma.data.data.dado,"+",HabilidadArma.data.data.bono,",1d6x6}kh");   
                }
@@ -446,9 +391,6 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                   speaker: ChatMessage.getSpeaker({ actor: this.actor }),
                   flavor: flavor
                });
-               }
-               
-               
             }
 		 },
          Daño: {
@@ -463,114 +405,11 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                let listaObjetivos = game.user.targets;
                let token_id;
                if (listaObjetivos.size) {
-                   for ( let i = 0; i < listaObjetivos.size; i++) {
-                      token_id = Array.from(listaObjetivos)[i];
-                      let target = token_id.actor;
-                      objetivo = target.data.data.dureza.valor;
-                      var tirada_con_bonos = "";
-                      tirada_con_bonos = tirada_con_bonos.concat (dataset.dano);
-                      switch (dataset.bono_atributo_dano) {
-                         case "Fuerza": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Fuerza.value,"x",this.actor.data.data.abilities.Fuerza.value);
-                         if (this.actor.data.data.abilities.Fuerza.bonus > 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Fuerza.bonus);
-                         }
-                         else if (this.actor.data.data.abilities.Fuerza.bonus < 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Fuerza.bonus);
-                         }
-                         break;
-                   
-                        case "Agilidad": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Agilidad.value,"x",this.actor.data.data.abilities.Agilidad.value);
-                        if (this.actor.data.data.abilities.Agilidad.bonus > 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Agilidad.bonus);
-                        }
-                        else if (this.actor.data.data.abilities.Agilidad.bonus < 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Agilidad.bonus);
-                        }
-                        break;
-                   
-                        case "Vigor": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Vigor.value,"x",this.actor.data.data.abilities.Vigor.value);
-                        if (this.actor.data.data.abilities.Vigor.bonus > 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Vigor.bonus);
-                        }
-                        else if (this.actor.data.data.abilities.Vigor.bonus < 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Vigor.bonus);
-                        }
-                        break;
-                   
-                        case "Astucia": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Astucia.value,"x",this.actor.data.data.abilities.Astucia.value);
-                        if (this.actor.data.data.abilities.Astucia.bonus > 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Astucia.bonus);
-                        }
-                        else if (this.actor.data.data.abilities.Astucia.bonus < 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Astucia.bonus);
-                        }
-                        break;
-                   
-                        case "Espíritu": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Espíritu.value,"x",this.actor.data.data.abilities.Espíritu.value);
-                        if (this.actor.data.data.abilities.Espíritu.bonus > 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Espíritu.bonus);
-                        }
-                        else if (this.actor.data.data.abilities.Espíritu.bonus < 0)
-                        {
-                           tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Espíritu.bonus);
-                        }
-                        break;
-                   
-                   }
-                   if (modificadores != 0){
-                     if (modificadores > 0){
-                        tirada_con_bonos = tirada_con_bonos.concat ("+", modificadores);
-                     }
-                     else {
-                        tirada_con_bonos = tirada_con_bonos.concat (modificadores);
-                     }
-                  }
-               let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
-               tirada.roll();
-               
-               if (tirada.total >= objetivo){
-                  margen = tirada.total - objetivo;
-                  aumentos = Math.floor(margen / 4);
-                  if (aumentos > 0){
-                     if (aumentos == 1)
-                     {
-                        resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDA" + "</div>";
-                     }
-                     else
-                     {
-                        resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDAS" + "</div>";
-                     }
-                  }
-                  else
-                  {
-                     resultado = "<div style=\"color:green;\">ATURDIDO</div>";
-                  }
+                   token_id = Array.from(listaObjetivos)[0];
+                   let target = token_id.actor;
+                   objetivo = target.data.data.dureza.valor;
                }
-               else
-               {
-                  resultado = "<div style=\"color:orange;\">FALLO</div>";
-               }
-               let label = dataset.label ? `Daño de ${dataset.label}` : '';
-               let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + "(" + target.data.name + ")" + "<br>" + resultado + "</b>";
-               tirada.toMessage({
-                  speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                  flavor: flavor
-               });
-                      
-                   }
-               }
-               else
-               {
-                               var tirada_con_bonos = "";
+               var tirada_con_bonos = "";
                   tirada_con_bonos = tirada_con_bonos.concat (dataset.dano);
                switch (dataset.bono_atributo_dano) {
                    case "Fuerza": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Fuerza.value,"x",this.actor.data.data.abilities.Fuerza.value);
@@ -663,13 +502,11 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                   resultado = "<div style=\"color:orange;\">FALLO</div>";
                }
                let label = dataset.label ? `Daño de ${dataset.label}` : '';
-               let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + "(" + target.data.name + ")" + "<br>" + resultado + "</b>";
+               let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + resultado + "</b>";
                tirada.toMessage({
                   speaker: ChatMessage.getSpeaker({ actor: this.actor }),
                   flavor: flavor
                });
-               }
-
             }
 		 },
          Aumento: {
@@ -686,127 +523,18 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                console.log (listaObjetivos);
                let token_id;
                if (listaObjetivos.size) {
-                   for ( let i = 0; i < listaObjetivos.size; i++ )
-                   {
-                      token_id = Array.from(listaObjetivos)[i];
-                      console.log("TOKEN ID");               
-                      console.log(token_id);
-                      let target = token_id.actor;
-                      console.log("ACTOR");
-                      console.log(target);
-                      console.log ("PARADA");
-                      console.log (target.data.data.dureza.valor);
-                      objetivo = target.data.data.dureza.valor;
-                      var tirada_con_bonos = "";
-                      tirada_con_bonos = tirada_con_bonos.concat (dataset.dano,"+ 1d6x6");
-                      switch (dataset.bono_atributo_dano) {
-                         case "Fuerza": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Fuerza.value,"x",this.actor.data.data.abilities.Fuerza.value);
-                         if (this.actor.data.data.abilities.Fuerza.bonus > 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Fuerza.bonus);
-                         }
-                         else if (this.actor.data.data.abilities.Fuerza.bonus < 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Fuerza.bonus);
-                         }
-                         break;
-                   
-                         case "Agilidad": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Agilidad.value,"x",this.actor.data.data.abilities.Agilidad.value);
-                         if (this.actor.data.data.abilities.Agilidad.bonus > 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Agilidad.bonus);
-                         }
-                         else if (this.actor.data.data.abilities.Agilidad.bonus < 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Agilidad.bonus);
-                         }
-                         break;
-                   
-                         case "Vigor": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Vigor.value,"x",this.actor.data.data.abilities.Vigor.value);
-                         if (this.actor.data.data.abilities.Vigor.bonus > 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Vigor.bonus);
-                         }
-                         else if (this.actor.data.data.abilities.Vigor.bonus < 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Vigor.bonus);
-                         }
-                         break;
-                   
-                         case "Astucia": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Astucia.value,"x",this.actor.data.data.abilities.Astucia.value);
-                         if (this.actor.data.data.abilities.Astucia.bonus > 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Astucia.bonus);
-                         }
-                         else if (this.actor.data.data.abilities.Astucia.bonus < 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Astucia.bonus);
-                         }
-                         break;
-                   
-                         case "Espíritu": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Espíritu.value,"x",this.actor.data.data.abilities.Espíritu.value);
-                         if (this.actor.data.data.abilities.Espíritu.bonus > 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat ("+",this.actor.data.data.abilities.Espíritu.bonus);
-                         }
-                         else if (this.actor.data.data.abilities.Espíritu.bonus < 0)
-                         {
-                            tirada_con_bonos = tirada_con_bonos.concat (this.actor.data.data.abilities.Espíritu.bonus);
-                         }
-                         break;
-                   
-                      }
-                      if (modificadores != 0){
-                         if (modificadores > 0){
-                            tirada_con_bonos = tirada_con_bonos.concat ("+", modificadores);
-                         }
-                         else {
-                            tirada_con_bonos = tirada_con_bonos.concat (modificadores);
-                         }
-                     }
-                     console.log ("TIRADA CON BONOS");
-                     console.log (tirada_con_bonos);
-                     console.log ("ACTOR");
-                     console.log (this.actor);
-                     let tirada = new Roll (tirada_con_bonos, this.actor.data.data);
-//                   let tirada = new Roll ("1d6", this.actor.data.data);
-                     tirada.roll();
+                   token_id = Array.from(listaObjetivos)[0];
+                   console.log("TOKEN ID");               
+                   console.log(token_id);
+                   let target = token_id.actor;
+                   console.log("ACTOR");
+                   console.log(target);
+                   console.log ("PARADA");
+                   console.log (target.data.data.dureza.valor);
+                   objetivo = target.data.data.dureza.valor;
+               }
                
-                     if (tirada.total >= objetivo){
-                        margen = tirada.total - objetivo;
-                        aumentos = Math.floor(margen / 4);
-                        if (aumentos > 0){
-                        if (aumentos == 1)
-                        {
-                           resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDA" + "</div>";
-                        }
-                        else
-                        {
-                           resultado = "<div style=\"color:blue;\">" + aumentos + " HERIDAS" + "</div>";
-                        }
-                     }
-                     else
-                     {
-                        resultado = "<div style=\"color:green;\">ATURDIDO</div>";
-                     }
-                  }
-                  else
-                  {
-                     resultado = "<div style=\"color:orange;\">FALLO</div>";
-                  }
-                  let label = dataset.label ? `Daño con Aumento de ${dataset.label}` : '';
-                  let flavor = "<b>" + label + " VS: " + objetivo + "<br>" + "(" + target.data.name + ")" + "<br>" + resultado + "</b>";
-                  console.log ("DADO TOTAL:");
-                  console.log (tirada.total);
-                  tirada.toMessage({
-                     speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                     flavor: flavor
-                  });
-               }
-               }
-               else
-               {
-                   var tirada_con_bonos = "";
+               var tirada_con_bonos = "";
                   tirada_con_bonos = tirada_con_bonos.concat (dataset.dano,"+ 1d6x6");
                   switch (dataset.bono_atributo_dano) {
                    case "Fuerza": tirada_con_bonos = tirada_con_bonos.concat ("+ 1d", this.actor.data.data.abilities.Fuerza.value,"x",this.actor.data.data.abilities.Fuerza.value);
@@ -911,8 +639,6 @@ export class SavichDeluxeActorSheet extends ActorSheet {
                   speaker: ChatMessage.getSpeaker({ actor: this.actor }),
                   flavor: flavor
                });
-               }
-               
             }
 		 }
          },
