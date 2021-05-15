@@ -1,4 +1,4 @@
- <form class="{{cssClass}} flexcol" autocomplete="off">
+<form class="{{cssClass}} flexcol" autocomplete="off">
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
@@ -54,6 +54,14 @@
                     <span> ( </span>
                     <input type="text" name="data.dureza.armadura" value="{{data.dureza.armadura}}" data-dtype="Number"/>
                     <span> ) </span>
+                  </div>
+              </div>
+              <div class="resource flex-group-center">
+                  <label for="data.benis.valor" class="resource-label">Benis</label>
+                  <div class="resource-content flexrow flex-center flex-between">
+                    <input type="text" name="data.benis.valor" value="{{data.benis.valor}}" data-dtype="Number"/>
+                    <span> / </span>
+                    <input type="text" name="data.benis.max" value="{{data.benis.max}}" data-dtype="Number"/>
                   </div>
               </div>
           </div>

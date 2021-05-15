@@ -25,7 +25,12 @@
         "dureza": {
           "valor": 0,
           "armadura": 0
-        }        
+        },
+        "benis": {
+          "valor": 3,
+          "min": 0,
+          "max": 3
+        }
       }
     },
     "character": {
@@ -97,4 +102,4 @@
        
     }
   }
- }
+}
